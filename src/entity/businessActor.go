@@ -147,7 +147,7 @@ func (ba *BusinessActor) Update(s contract.Stor, c context.Context, id string) e
 	newBa.Series_title_3 = ba.Series_title_3
 	newBa.Series_title_4 = ba.Series_title_4
 	newBa.Series_title_5 = ba.Series_title_5
-	return s.UpdateBusinessActor(c, bson.M{"_id": ob}, newBa)
+	return s.UpdateBusinessActor(c, bson.M{"_id": ob}, bson.M{"$set": newBa})
 }
 
 func (ba *BusinessActor) Delete(s contract.Stor, c context.Context, id string) error {
