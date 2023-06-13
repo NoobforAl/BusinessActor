@@ -12,6 +12,7 @@ import (
 
 var (
 	dsn         string
+	csv_path    string
 	listen_IP   string
 	listen_PORT int
 )
@@ -22,6 +23,7 @@ func init() {
 	}
 
 	dsn = os.Getenv("DSN")
+	csv_path = os.Getenv("CSV_PATH")
 	listen_IP = os.Getenv("LISTEN_IP")
 
 	ip, err := netip.ParseAddr(listen_IP)
@@ -40,6 +42,10 @@ func init() {
 
 func GetDsn() string {
 	return dsn
+}
+
+func GetCsvPath() string {
+	return csv_path
 }
 
 func GetAddrListen() string {
