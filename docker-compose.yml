@@ -1,25 +1,34 @@
-version: '3.3'  
+version: "3.3"
 
 services:
-    mongo:
-        image: mongo
-        ports:
-            - 27017:27017
-        container_name: app-stor-mongo
-        restart: always
-        logging:
-            options:
-                max-size: 1g
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=mongoadmin
-            - MONGO_INITDB_ROOT_PASSWORD=dasfa4523da3214esad
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+    environment:
+      - DSN=mongodb://mongoadmin:dasfa4523da3214esad@mongo:27017/
+      - CSV_PATH=/app/business-financial-data-mar-2022-quarter-csv.csv
+      - LISTEN_PORT=8080
+      - LISTEN_IP=0.0.0.0
+      - GIN_MODE=release
 
-    mongo-express:
-      image: mongo-express
-      restart: always
-      ports:
-        - 8081:8081
-      environment:
-        ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
-        ME_CONFIG_MONGODB_ADMINPASSWORD: dasfa4523da3214esad
-        ME_CONFIG_MONGODB_URL: mongodb://mongoadmin:dasfa4523da3214esad@mongo:27017/
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=dasfa4523da3214esad
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: dasfa4523da3214esad
+      ME_CONFIG_MONGODB_URL: mongodb://mongoadmin:dasfa4523da3214esad@mongo:27017/
