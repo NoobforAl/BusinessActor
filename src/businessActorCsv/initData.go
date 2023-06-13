@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/NoobforAl/BusinessActor/contract"
-	"github.com/NoobforAl/BusinessActor/logger"
+	"github.com/NoobforAl/BusinessActor/src/contract"
+	"github.com/NoobforAl/BusinessActor/src/logger"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -89,8 +89,8 @@ func InitData(s contract.Stor) {
 		}
 
 		logger.Log.Println("not found data in database and now insert New!")
-		// /src
-		f, err := os.Open("./businessActorCsv/business-financial-data-mar-2022-quarter-csv.csv")
+		csvPath := "./src/businessActorCsv/business-financial-data-mar-2022-quarter-csv.csv"
+		f, err := os.Open(csvPath)
 		if err != nil {
 			panic(err)
 		}
