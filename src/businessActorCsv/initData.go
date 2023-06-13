@@ -12,6 +12,7 @@ import (
 	"github.com/NoobforAl/BusinessActor/src/contract"
 	"github.com/NoobforAl/BusinessActor/src/logger"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var onc sync.Once
@@ -34,6 +35,7 @@ func combineInsert(c context.Context, s contract.Stor, ch <-chan []string) {
 	var err error
 	for v := range ch {
 		ba := s.NewBA()
+		ba.ID = primitive.NewObjectID()
 		ba.Series_reference = v[0]
 
 		ba.Period, err = formatTime(v[1])
