@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/NoobforAl/BusinessActor/logger"
+	"github.com/NoobforAl/BusinessActor/src/logger"
 	"github.com/joho/godotenv"
 )
 
