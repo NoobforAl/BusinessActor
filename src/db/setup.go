@@ -4,8 +4,8 @@ import (
 	"context"
 	"sync"
 
-	env "github.com/NoobforAl/BusinessActor/loadEnv"
-	"github.com/NoobforAl/BusinessActor/logger"
+	env "github.com/NoobforAl/BusinessActor/src/loadEnv"
+	"github.com/NoobforAl/BusinessActor/src/logger"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -26,6 +26,10 @@ func GetDb() database {
 
 		stor.cl, err = mongo.NewClient(options.Client().ApplyURI(dsn))
 		if err != nil {
+			logger.Log.Fatal(err)
+		}
+
+		if err = stor.cl.Connect(context.Background()); err != nil {
 			logger.Log.Fatal(err)
 		}
 
