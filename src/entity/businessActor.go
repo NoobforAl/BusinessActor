@@ -132,6 +132,13 @@ func (ba *BusinessActor) Update(s contract.Stor, c context.Context, id string) e
 	}
 
 	newBa := s.NewBA()
+	query := bson.M{"_id": ob}
+
+	_, err = s.GetOneBusinessActor(c, query)
+	if err != nil {
+		return err
+	}
+
 	newBa.Series_reference = ba.Series_reference
 
 	newBa.Period = ba.Period
@@ -150,7 +157,7 @@ func (ba *BusinessActor) Update(s contract.Stor, c context.Context, id string) e
 	newBa.Series_title_3 = ba.Series_title_3
 	newBa.Series_title_4 = ba.Series_title_4
 	newBa.Series_title_5 = ba.Series_title_5
-	return s.UpdateBusinessActor(c, bson.M{"_id": ob}, bson.M{"$set": newBa})
+	return s.UpdateBusinessActor(c, query, bson.M{"$set": newBa})
 }
 
 func (ba *BusinessActor) Delete(s contract.Stor, c context.Context, id string) error {
