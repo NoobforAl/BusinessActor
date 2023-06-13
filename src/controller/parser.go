@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getQueryInt(c *gin.Context, key string) (int, error) {
+func getQueryInt64(c *gin.Context, key string) (int64, error) {
 	val := c.Query(key)
-	return strconv.Atoi(val)
+	return strconv.ParseInt(val, 10, 64)
 }
