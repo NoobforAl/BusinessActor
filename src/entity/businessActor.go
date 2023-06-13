@@ -165,5 +165,12 @@ func (ba *BusinessActor) Delete(s contract.Stor, c context.Context, id string) e
 	if err != nil {
 		return err
 	}
-	return s.DeleteBusinessActor(c, bson.M{"_id": ob})
+
+	query := bson.M{"_id": ob}
+	_, err = s.GetOneBusinessActor(c, query)
+	if err != nil {
+		return err
+	}
+
+	return s.DeleteBusinessActor(c, query)
 }
