@@ -11,12 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const csvPath = "./src/businessActorCsv/business-financial-data-mar-2022-quarter-csv.csv"
-
 func main() {
 	r := gin.Default()
 	stor := db.GetDb()
-	loadCsv.InitData(stor, csvPath)
+	loadCsv.InitData(stor, env.GetCsvPath())
 
 	api := r.Group("/api")
 	{
