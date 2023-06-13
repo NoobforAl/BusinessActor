@@ -1,7 +1,6 @@
 package env
 
 import (
-	"errors"
 	"fmt"
 	"net/netip"
 	"os"
@@ -17,9 +16,6 @@ var (
 	listen_PORT int
 )
 
-var errNotValidIP = errors.New("ip4 is not valid, ")
-var errNotPort = errors.New("Port is not valid, ")
-
 func init() {
 	if err := godotenv.Load("./.env"); err != nil {
 		logger.Log.Println("No .env file found")
@@ -30,13 +26,15 @@ func init() {
 
 	ip, err := netip.ParseAddr(listen_IP)
 	if err != nil && !ip.Is4() {
-		panic(errors.Join(errNotValidIP, err))
+		logger.Log.Printf("get error set default value Err: %s", err.Error())
+		listen_IP = "0.0.0.0"
 	}
 
 	port := os.Getenv("LISTEN_PORT")
 	listen_PORT, err = strconv.Atoi(port)
 	if err != nil || listen_PORT < 1 {
-		panic(errors.Join(errNotPort, err))
+		logger.Log.Printf("get error set default value Err: %s", err.Error())
+		listen_PORT = 8080
 	}
 }
 
