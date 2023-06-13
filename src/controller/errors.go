@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/NoobforAl/BusinessActor/src/db"
 	"github.com/NoobforAl/BusinessActor/src/entity"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -20,7 +21,8 @@ func handleErr(c *gin.Context, err error) {
 		errors.Is(err, ErrBadRequest):
 		status = http.StatusBadRequest
 
-	case errors.Is(err, entity.ErrNotFoundPage):
+	case errors.Is(err, entity.ErrNotFoundPage) ||
+		errors.Is(err, db.ErrNotFound):
 		status = http.StatusNotFound
 	}
 	c.JSON(status, gin.H{"detail": err.Error()})
