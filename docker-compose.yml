@@ -1,0 +1,25 @@
+version: '3.3'  
+
+services:
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
+        container_name: app-stor-mongo
+        restart: always
+        logging:
+            options:
+                max-size: 1g
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+            - MONGO_INITDB_ROOT_PASSWORD=dasfa4523da3214esad
+
+    mongo-express:
+      image: mongo-express
+      restart: always
+      ports:
+        - 8081:8081
+      environment:
+        ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
+        ME_CONFIG_MONGODB_ADMINPASSWORD: dasfa4523da3214esad
+        ME_CONFIG_MONGODB_URL: mongodb://mongoadmin:dasfa4523da3214esad@mongo:27017/
