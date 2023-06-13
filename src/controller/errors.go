@@ -10,14 +10,14 @@ import (
 )
 
 var (
-	ErrBadRequest = errors.New("bad request")
+	ErrBadRequest = errors.New("bad request ")
 )
 
 func handleErr(c *gin.Context, err error) {
 	status := http.StatusInternalServerError
 	switch {
-	case errors.Is(primitive.ErrInvalidHex, err):
-	case errors.Is(ErrBadRequest, err):
+	case errors.Is(primitive.ErrInvalidHex, err) ||
+		errors.Is(ErrBadRequest, err):
 		status = http.StatusBadRequest
 
 	case errors.Is(entity.ErrNotFoundPage, err):
