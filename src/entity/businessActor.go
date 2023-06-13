@@ -103,6 +103,9 @@ func (ba *BusinessActor) Create(s contract.Stor, c context.Context) error {
 	newBa := s.NewBA()
 	newBa.Series_reference = ba.Series_reference
 
+	newBa.ID = primitive.NewObjectID()
+	ba.Id = newBa.ID.Hex()
+
 	newBa.Period = ba.Period
 	newBa.Data_value = ba.Data_value
 	newBa.Suppressed = ba.Suppressed
