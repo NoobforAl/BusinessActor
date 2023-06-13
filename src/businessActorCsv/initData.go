@@ -75,7 +75,7 @@ func combineInsert(c context.Context, s contract.Stor, ch <-chan []string) {
 	wg.Done()
 }
 
-func InitData(s contract.Stor) {
+func InitData(s contract.Stor, path string) {
 	onc.Do(func() {
 		ctx := context.TODO()
 		c, err := s.CountBusinessActor(ctx, bson.M{})
@@ -91,8 +91,7 @@ func InitData(s contract.Stor) {
 		}
 
 		logger.Log.Println("not found data in database and now insert New!")
-		csvPath := "./src/businessActorCsv/business-financial-data-mar-2022-quarter-csv.csv"
-		f, err := os.Open(csvPath)
+		f, err := os.Open(path)
 		if err != nil {
 			panic(err)
 		}
