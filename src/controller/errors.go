@@ -16,11 +16,11 @@ var (
 func handleErr(c *gin.Context, err error) {
 	status := http.StatusInternalServerError
 	switch {
-	case errors.Is(primitive.ErrInvalidHex, err) ||
-		errors.Is(ErrBadRequest, err):
+	case errors.Is(err, primitive.ErrInvalidHex) ||
+		errors.Is(err, ErrBadRequest):
 		status = http.StatusBadRequest
 
-	case errors.Is(entity.ErrNotFoundPage, err):
+	case errors.Is(err, entity.ErrNotFoundPage):
 		status = http.StatusNotFound
 	}
 	c.JSON(status, gin.H{"detail": err.Error()})
