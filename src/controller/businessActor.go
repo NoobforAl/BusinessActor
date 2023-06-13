@@ -25,13 +25,13 @@ func GetManyBusinessActor(stor contract.Stor) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		page, err := getQueryInt(c, "page")
 		if err != nil {
-			handleErr(c, errors.Join(ErrBadRequest, err))
+			handleErr(c, ErrBadRequest)
 			return
 		}
 
 		size, err := getQueryInt(c, "page")
 		if err != nil {
-			handleErr(c, errors.Join(ErrBadRequest, err))
+			handleErr(c, ErrBadRequest)
 			return
 		}
 
