@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "b45fe664-cf5b-4e64-a43d-2051ee0429ff",
+		"name": "Business Actor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "14950131"
+	},
+	"item": [
+		{
+			"name": "Get BusinessActor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/get/:id ",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"get",
+						":id "
+					],
+					"variable": [
+						{
+							"key": "id ",
+							"value": "6488866fccdba500478d8067"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Many",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/getMany?size=10&page=1",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"getMany"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"series_reference\": \"BDCQ.SF1AA2CA\",\r\n    \"period\": \"2016-06-01T00:00:00Z\",\r\n    \"data_value\": 1116.386,\r\n    \"suppressed\": false,\r\n    \"status\": \"F\",\r\n    \"units\": \"Dollars\",\r\n    \"magnitude\": 6,\r\n    \"subject\": \"Business Data Collection - BDC\",\r\n    \"group\": \"Industry by financial variable (NZSIOC Level 2)\",\r\n    \"series_title_1\": \"Sales (operating income)\",\r\n    \"series_title_2\": \"Forestry and Logging\",\r\n    \"series_title_3\": \"Current prices\",\r\n    \"series_title_4\": \"Unadjusted\",\r\n    \"series_title_5\": \"test3343\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/update/:id",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"update",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "64887983f1a7eabdbba59e76"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/delete/:id",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"delete",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "64887983f1a7eabdbba59e72"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"series_reference\": \"BDCQ.SF1AA2CA\",\r\n    \"period\": \"2016-06-01T00:00:00Z\",\r\n    \"data_value\": 1116.386,\r\n    \"suppressed\": false,\r\n    \"status\": \"F\",\r\n    \"units\": \"Dollars\",\r\n    \"magnitude\": 6,\r\n    \"subject\": \"Business Data Collection - BDC\",\r\n    \"group\": \"Industry by financial variable (NZSIOC Level 2)\",\r\n    \"series_title_1\": \"Sales (operating income)\",\r\n    \"series_title_2\": \"Forestry and Logging\",\r\n    \"series_title_3\": \"Current prices\",\r\n    \"series_title_4\": \"Unadjusted\",\r\n    \"series_title_5\": \"test3343\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "127.0.0.1:8080/api/create"
+			},
+			"response": []
+		}
+	]
+}
