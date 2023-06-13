@@ -7,7 +7,7 @@ import (
 )
 
 type BusinessActor struct {
-	ID primitive.ObjectID `bson:"_id"`
+	ID primitive.ObjectID `bson:"_id,omitempty"`
 
 	Series_reference string `bson:"series_reference"`
 
