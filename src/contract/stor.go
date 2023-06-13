@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/NoobforAl/BusinessActor/src/db"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Stor interface {
@@ -12,7 +13,7 @@ type Stor interface {
 	CountBusinessActor(c context.Context, filter any) (int64, error)
 
 	GetOneBusinessActor(c context.Context, filter any) (db.BusinessActor, error)
-	GetManyBusinessActor(c context.Context, filter any) ([]db.BusinessActor, error)
+	GetManyBusinessActor(c context.Context, filter any, opts ...*options.FindOptions) ([]db.BusinessActor, error)
 
 	InsertBusinessActor(c context.Context, d any) error
 	InsertManyBusinessActor(c context.Context, d []db.BusinessActor) error

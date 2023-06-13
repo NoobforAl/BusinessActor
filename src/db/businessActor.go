@@ -2,6 +2,8 @@ package db
 
 import (
 	"context"
+
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func (s database) NewBA() *BusinessActor {
@@ -22,14 +24,18 @@ func (s database) GetOneBusinessActor(c context.Context, filter any) (BusinessAc
 	return businessActor, nil
 }
 
-func (s database) GetManyBusinessActor(c context.Context, filter any) ([]BusinessActor, error) {
-	cur, err := s.db.Find(c, filter)
+func (s database) GetManyBusinessActor(
+	c context.Context,
+	filter any,
+	opts ...*options.FindOptions) ([]BusinessActor, error) {
+
+	cur, err := s.db.Find(c, filter, opts...)
 	if err != nil {
 		return nil, err
 	}
 
 	var businessActors []BusinessActor
-	if err = cur.All(c, businessActors); err != nil {
+	if err = cur.All(c, &businessActors); err != nil {
 		return nil, err
 	}
 

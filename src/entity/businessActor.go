@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func (ba *BusinessActor) Pars(c *gin.Context) error {
@@ -47,24 +48,26 @@ func (ba *BusinessActor) Find(s contract.Stor, c context.Context, id string) err
 	return nil
 }
 
-func (ba *BusinessActor) GetMany(s contract.Stor, c context.Context, page, size int) ([]BusinessActor, error) {
+func (ba *BusinessActor) GetMany(s contract.Stor, c context.Context, page, size int64) ([]BusinessActor, error) {
 	length, err := s.CountBusinessActor(c, bson.D{})
 	if err != nil {
 		return nil, err
 	}
 
-	MaxPage := int(length / int64(size))
-	if page > MaxPage || page < 1 || size < 1 {
+	if page < 1 || size < 1 {
 		return nil, ErrNotFoundPage
 	}
 
-	query := bson.M{
-		"value": bson.M{
-			"$gt": (page - 1) * size,
-			"$lt": page * size,
-		},
+	MaxPage := (length / (size))
+	if page > MaxPage {
+		return nil, ErrNotFoundPage
 	}
-	businessActors, err := s.GetManyBusinessActor(c, query)
+
+	findOptions := options.Find()
+	findOptions.SetSkip((page - 1) * size)
+	findOptions.SetLimit(page * size)
+
+	businessActors, err := s.GetManyBusinessActor(c, bson.M{}, findOptions)
 	if err != nil {
 		return nil, err
 	}
