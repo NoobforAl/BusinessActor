@@ -2,53 +2,13 @@ package tests
 
 import (
 	"context"
-	"os"
 	"testing"
 	"time"
 
-	mock "github.com/NoobforAl/BusinessActor/src/Mock"
 	"github.com/NoobforAl/BusinessActor/src/action"
-	loadCsv "github.com/NoobforAl/BusinessActor/src/businessActorCsv"
 	"github.com/NoobforAl/BusinessActor/src/entity"
-	"github.com/NoobforAl/BusinessActor/src/logger"
-	"github.com/sv-tools/mongoifc"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
-
-var mo mock.Mock
-
-func TestMain(m *testing.M) {
-	// test with your database
-	dsn := "mongodb://mongoadmin:dasfa4523da3214esad@127.0.0.1:27017/admin"
-	stor, err := mongoifc.NewClient(options.Client().ApplyURI(dsn))
-	if err != nil {
-		logger.Log.Fatal(err)
-	}
-
-	col := stor.Database("tests").Collection("records")
-	if err = stor.Connect(context.Background()); err != nil {
-		logger.Log.Fatal(err)
-	}
-
-	if err = stor.Ping(context.TODO(), readpref.Primary()); err != nil {
-		logger.Log.Fatal(err)
-	}
-
-	pathFile := "../businessActorCsv/business-financial-data-mar-2022-quarter-csv.csv"
-
-	mo = mock.NewMock(col)
-	loadCsv.InitData(mo, pathFile)
-
-	defer func() {
-		if err = col.Drop(context.Background()); err != nil {
-			panic(err)
-		}
-	}()
-
-	os.Exit(m.Run())
-}
 
 func TestCaseFindEntity(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
