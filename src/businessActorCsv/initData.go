@@ -5,14 +5,16 @@ import (
 	"encoding/csv"
 	"io"
 	"os"
+	"runtime"
 	"strconv"
 	"sync"
 	"time"
 
+	"github.com/NoobforAl/BusinessActor/src/action"
 	"github.com/NoobforAl/BusinessActor/src/contract"
+	"github.com/NoobforAl/BusinessActor/src/entity"
 	"github.com/NoobforAl/BusinessActor/src/logger"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var onc sync.Once
@@ -31,19 +33,35 @@ func convInt(s string) (int, error) {
 	return strconv.Atoi(s)
 }
 
-func combineInsert(c context.Context, s contract.Stor, ch <-chan []string) {
+func combineInsert(
+	c context.Context,
+	s contract.Stor,
+	ch <-chan []string,
+) {
 	var err error
 	for v := range ch {
-		ba := s.NewBA()
-		ba.ID = primitive.NewObjectID()
-		ba.Series_reference = v[0]
+		ac := action.NewBaActor(s)
+		ba := entity.BusinessActor{
+			Series_reference: v[0],
+
+			Suppressed: v[3] == "Y",
+
+			STATUS: v[4],
+			UNITS:  v[5],
+
+			Subject:        v[7],
+			Group:          v[8],
+			Series_title_1: v[9],
+			Series_title_2: v[10],
+			Series_title_3: v[11],
+			Series_title_4: v[12],
+			Series_title_5: v[13],
+		}
 
 		ba.Period, err = formatTime(v[1])
 		if err != nil {
 			logger.Log.Fatal(err)
 		}
-
-		ba.Suppressed = v[3] == "Y"
 
 		if !ba.Suppressed && v[2] != "" {
 			ba.Data_value, err = convFloat64(v[2])
@@ -52,23 +70,12 @@ func combineInsert(c context.Context, s contract.Stor, ch <-chan []string) {
 			}
 		}
 
-		ba.STATUS = v[4]
-		ba.UNITS = v[5]
-
 		ba.Magnitude, err = convInt(v[6])
 		if err != nil {
 			logger.Log.Fatal(err)
 		}
 
-		ba.Subject = v[7]
-		ba.Group = v[8]
-		ba.Series_title_1 = v[9]
-		ba.Series_title_2 = v[10]
-		ba.Series_title_3 = v[11]
-		ba.Series_title_4 = v[12]
-		ba.Series_title_5 = v[13]
-
-		if err = s.InsertBusinessActor(c, ba); err != nil {
+		if err = ac.Create(c, ba); err != nil {
 			logger.Log.Fatal(err)
 		}
 	}
@@ -101,11 +108,11 @@ func InitData(s contract.Stor, path string) {
 		csvData := csv.NewReader(f)
 		ch := make(chan []string)
 
-		wg.Add(4)
-		go combineInsert(ctx, s, ch)
-		go combineInsert(ctx, s, ch)
-		go combineInsert(ctx, s, ch)
-		go combineInsert(ctx, s, ch)
+		// create goroutine
+		for i := 0; i < runtime.NumCPU(); i++ {
+			wg.Add(1)
+			go combineInsert(ctx, s, ch)
+		}
 
 		// get first line
 		_, _ = csvData.Read()
