@@ -46,7 +46,7 @@ How install air see this [Doc](https://github.com/cosmtrek/air).
 
 ## Help Api
 
-For request to rest api you need postman and you can load postman file in folder postman ( src/postman ).
+For request to rest api you need postman and you can load postman file in folder postman.
 
 ### Get Business Actor
 
