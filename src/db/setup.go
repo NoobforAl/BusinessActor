@@ -12,8 +12,14 @@ import (
 )
 
 type database struct {
+	// DB client
 	cl *mongo.Client
-	db *mongo.Collection
+
+	// BusinessActor database
+	BaDB *mongo.Database
+
+	// BusinessActor collection
+	BaCol *mongo.Collection
 }
 
 var onc sync.Once
@@ -37,7 +43,8 @@ func GetDb() database {
 			logger.Log.Fatal(err)
 		}
 
-		stor.db = stor.cl.Database("BusinessActor").Collection("records")
+		stor.BaDB = stor.cl.Database("BusinessActor")
+		stor.BaCol = stor.BaDB.Collection("records")
 	})
 
 	return stor
